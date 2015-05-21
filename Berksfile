@@ -2,9 +2,6 @@ source 'https://supermarket.getchef.com'
 extension 'halite'
 
 cookbook 'poise', gem: 'poise'
+cookbook 'poise-service', gem: 'poise-service'
 
 metadata
-
-group :test do
-  cookbook "consul_spec", path: "spec/fixtures/cookbooks/consul_spec"
-end
