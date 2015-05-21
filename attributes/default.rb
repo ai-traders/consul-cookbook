@@ -6,9 +6,13 @@
 # Copyright 2014, 2015 Bloomberg Finance L.P.
 #
 
-default['consul']['base_url']       = "https://dl.bintray.com/mitchellh/consul/%{version}.zip"
-default['consul']['version']        = '0.4.1'
-default['consul']['install_method'] = 'binary'
+default['consul']['service_name'] = 'consul'
+default['consul']['service_user'] = 'consul'
+default['consul']['service_group'] = 'consul'
+
+default['consul']['remote_url'] = "https://dl.bintray.com/mitchellh/consul/%{version}.zip"
+default['consul']['version'] = '0.5.1'
+
 default['consul']['install_dir']    = '/usr/local/bin'
 default['consul']['checksums']      = {
   '0.3.0_darwin_amd64' => '9dfbc70c01ebbc3e7dba0e4b31baeddbdcbd36ef99f5ac87ca6bbcc7405df405',
@@ -44,19 +48,7 @@ default['consul']['data_dir'] = '/var/lib/consul'
 default['consul']['config_dir'] = '/etc/consul.d'
 
 default['consul']['servers'] = []
-default['consul']['init_style'] = 'init'   # 'init', 'runit', 'systemd'
 
-case node['consul']['init_style']
-when 'runit' || 'systemd'
-  default['consul']['service_user'] = 'consul'
-  default['consul']['service_group'] = 'consul'
-else
-  default['consul']['service_user'] = 'root'
-  default['consul']['service_group'] = 'root'
-end
-
-default['consul']['service_user'] = 'consul'
-default['consul']['service_group'] = 'consul'
 
 default['consul']['ports'] = {
   'dns'      => 8600,
@@ -66,10 +58,6 @@ default['consul']['ports'] = {
   'serf_wan' => 8302,
   "server"   => 8300,
 }
-
-# Consul DataBag
-default['consul']['data_bag'] = 'consul'
-default['consul']['data_bag_encrypt_item'] = 'encrypt'
 
 # Gossip encryption
 default['consul']['encrypt_enabled'] = false

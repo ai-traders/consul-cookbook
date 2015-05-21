@@ -1,7 +1,7 @@
 name 'consul'
 maintainer 'John Bellone'
 maintainer_email 'jbellone@bloomberg.net'
-license 'Apache v2.0'
+license 'Apache 2.0'
 description 'Installs/Configures Consul client, server and UI.'
 long_description 'Installs/Configures Consul client, server and UI.'
 version '1.0.0'
