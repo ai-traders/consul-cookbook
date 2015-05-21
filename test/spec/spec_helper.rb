@@ -44,12 +44,12 @@ RSpec.shared_context 'recipe tests', type: :recipe do
   end
 end
 
-RSpec.shared_context "resource tests", type: :resource do
+RSpec.shared_context 'resource tests', type: :resource do
   before do
     stub_command("test -L /usr/local/bin/consul").and_return(true)
   end
 
   let(:chef_run) do
-    ChefSpec::SoloRunner.new(step_info: [cookbook_name]).converge(cookbook_name)
+    ChefSpec::SoloRunner.new(step_info: [described_resource]).converge(cookbook_name)
   end
 end
