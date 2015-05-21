@@ -4,26 +4,24 @@
 #
 # Copyright 2014, 2015 Bloomberg Finance L.P.
 #
+require 'poise'
 
-class Chef::Resource::ConsulConfig < Chef::Resource::LWRPBase
-  self.resource_name = :consul_config
+class Chef::Resource::ConsulConfig < Chef::Resource
+  include Poise(fused: true)
   provides(:consul_config)
   actions(:create, :delete)
-  default_action(:create)
 
   attribute(:path,
     kind_of: String,
     name_attribute: true,
     required: true,
     cannot_be: :empty)
-  attribute(:run_user,
+  attribute(:owner,
     kind_of: String,
-    required: true,
     cannot_be: :empty,
     default: 'consul')
-  attribute(:run_group,
+  attribute(:group,
     kind_of: String,
-    required: true,
     cannot_be: :empty,
     default: 'consul')
 
@@ -129,4 +127,29 @@ class Chef::Resource::ConsulConfig < Chef::Resource::LWRPBase
     default: false)
   attribute(:watches,
     kind_of: [Hash, NilClass])
+
+  action(:create) do
+    directory ::File.dirname(new_resource.path) do
+      recursive true
+      owner new_resource.owner
+      group new_resource.group
+      mode '0644'
+    end
+
+    invalid_options = %i(path owner group)
+    configuration = new_resource.to_hash.reject { |k, v| invalid_options.include?(k) }
+    file new_resource.path do
+      owner new_resource.owner
+      group new_resource.group
+      content JSON.pretty_generate(configuration, quirks_mode: true)
+      mode '0600'
+      action :create
+    end
+  end
+
+  action(:delete) do
+    file new_resource.path do
+      action :delete
+    end
+  end
 end

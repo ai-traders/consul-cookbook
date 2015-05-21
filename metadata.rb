@@ -9,17 +9,13 @@ version '1.0.0'
 recipe 'consul', 'Installs and starts consul service.'
 recipe 'consul::ui', 'Installs consul ui service.'
 
-%w(redhat centos).each do |name|
-  supports name, '~> 7.0'
-  supports name, '~> 6.5'
-end
-
+supports 'centos', '>= 6.5'
+supports 'redhat', '>= 6.5'
 supports 'ubuntu', '= 12.04'
 supports 'ubuntu', '= 14.04'
 supports 'arch'
 
-recommends 'chef-provisioning'
-
-depends 'libarchive'
+depends 'libartifact'
 depends 'golang', '~> 1.4'
+depends 'poise', '~> 2.0'
 depends 'runit'

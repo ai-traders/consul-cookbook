@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+gem 'halite', git: 'https://github.com/poise/halite'
+gem 'poise', git: 'https://github.com/poise/poise'
 
 group :lint do
   gem 'foodcritic'

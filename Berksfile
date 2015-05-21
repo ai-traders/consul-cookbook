@@ -1,4 +1,7 @@
 source 'https://supermarket.getchef.com'
+extension 'halite'
+
+cookbook 'poise', gem: 'poise'
 
 metadata
 
