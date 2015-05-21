@@ -1,4 +1,14 @@
-# 0.9.0 (in progress)
+# 1.0.0 (in progress)
+This is a big release and a complete rewrite of the cookbook. All
+logic for configuration of Consul bits is codified in Chef
+resources/providers. The input (configuration) is validated prior to
+convergence.
+
+* Enhancements
+  - The cookbook now provides resources which validate input and fail convergence.
+  - Recipes use the cookbook's resources to configure Consul client, server and UI.
+
+# 0.9.0
 * Enhancements
   - Adds support for publishing to statsd URL. [@akerekes](https://github.com/akerekes)
   - Adds support for Arch Linux. ([@ogankoester](https://github.com/logankoester))
