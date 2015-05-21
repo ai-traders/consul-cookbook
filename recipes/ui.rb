@@ -1,32 +1,14 @@
 #
-# Cookbook Name:: consul
-# Recipe:: ui
-# License:: Apache 2.0
+# Cookbook: consul
+# License: Apache 2.0
 #
 # Copyright 2014, 2015 Bloomberg Finance L.P.
-# Copyright 2014 Benny Wong <benny@bwong.net>
 #
-include_recipe 'libarchive::default'
 
-archive = remote_file Chef::ConsulUI.cached_archive(node) do
-  source Chef::ConsulUI.remote_url(node)
-  checksum Chef::ConsulUI.remote_checksum(node)
-end
-
-libarchive_file 'consul_ui.zip' do
-  path archive.path
-  extract_to Chef::ConsulUI.install_path(node)
-  extract_options :no_overwrite
-
-  action :extract
-end
-
-directory Chef::ConsulUI.active_path(node) do
-  action :delete
-  recursive true
-  not_if "test -L #{Chef::ConsulUI.active_path(node)}"
-end
-
-link Chef::ConsulUI.active_path(node) do
-  to Chef::ConsulUI.latest_dist(node)
+consul_client 'consul_ui' do
+  binary_url ''
+  binary_checksum ''
+  binary_version ''
+  run_user node['consul']['service_user']
+  run_group node['consul']['service_group']
 end
