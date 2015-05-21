@@ -6,8 +6,7 @@
 #
 
 consul_client 'consul' do
-  binary_url node['consul']['']
-  binary_checksum node['consul']['']
+  binary_url node['consul']['remote_url']
   binary_version node['consul']['version']
   run_user node['consul']['service_user']
   run_group node['consul']['service_group']
@@ -18,7 +17,7 @@ consul_config File.join(node['consul']['config_dir'], 'default.json') do
   run_group node['consul']['service_group']
 end
 
-consul_service 'consul' do
+consul_service node['consul']['service_name'] do
   run_user node['consul']['service_user']
   run_group node['consul']['service_group']
   action [:create, :start]

@@ -32,15 +32,20 @@ class Chef::Resource::ConsulClient < Chef::Resource
   attribute(:binary_version,
             kind_of: String,
             cannot_be: :empty)
-  attribute(:binary_checksum,
-            kind_of: String,
-            cannot_be: :empty)
   attribute(:source_url,
             kind_of: String,
             cannot_be: :empty)
   attribute(:source_version,
             kind_of: String,
             cannot_be: :empty)
+
+  # SHA256 checksum value for binary installations.
+  # @return [String]
+  def binary_checksum
+    arch = node['kernel']['machine'] =~ /x86_64/ ? 'amd64' : '386'
+    checksum = [node['consul']['version'], node['os'], arch].join('_')
+    node['consul']['checksums'].fetch(checksum)
+  end
 
   action(:create) do
     package new_resource.package_name do
