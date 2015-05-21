@@ -17,8 +17,7 @@ class Chef::Resource::ConsulWatch < Chef::Resource
   attribute(:watch_type,
             kind_of: String,
             cannot_be: :empty,
-            equal_to: %w(checks event key keyprefix service),
-            required: true)
+            equal_to: %w(checks event key keyprefix service))
 
   attribute(:datacenter,
             kind_of: [String, NilClass],

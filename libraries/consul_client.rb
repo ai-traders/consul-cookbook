@@ -13,31 +13,21 @@ class Chef::Resource::ConsulClient < Chef::Resource
 
   attribute(:install_path,
             kind_of: String,
-            name_attribute: true,
-            required: true)
+            name_attribute: true)
 
   attribute(:install_method,
             kind_of: String,
             default: 'binary',
-            cannot_be: :empty)
-  attribute(:package_name,
-            kind_of: String,
-            cannot_be: :empty)
-  attribute(:package_version,
-            kind_of: String,
-            cannot_be: :empty)
+            equal_to: %w(binary source))
+
   attribute(:binary_url,
-            kind_of: String,
-            cannot_be: :empty)
+            kind_of: String)
   attribute(:binary_version,
-            kind_of: String,
-            cannot_be: :empty)
+            kind_of: String)
   attribute(:source_url,
-            kind_of: String,
-            cannot_be: :empty)
+            kind_of: String)
   attribute(:source_version,
-            kind_of: String,
-            cannot_be: :empty)
+            kind_of: String)
 
   # SHA256 checksum value for binary installations.
   # @return [String]
@@ -48,11 +38,6 @@ class Chef::Resource::ConsulClient < Chef::Resource
   end
 
   action(:create) do
-    package new_resource.package_name do
-      version new_resource.package_version if new_resource.package_version
-      only_if { new_resource.install_method == 'package' }
-    end
-
     libartifact_file "consul-#{new_resource.binary_version}" do
       artifact_name 'consul'
       artifact_version new_resource.binary_version
@@ -87,11 +72,6 @@ class Chef::Resource::ConsulClient < Chef::Resource
   end
 
   action(:delete) do
-    package new_resource.package_name do
-      action :remove
-      only_if { new_resource.install_method == 'package' }
-    end
-
     libartifact_file "consul-#{new_resource.binary_version}" do
       artifact_name 'consul'
       artifact_version new_resource.binary_version
