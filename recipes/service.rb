@@ -243,6 +243,8 @@ when 'runit'
     subscribes :restart, "file[#{consul_config_filename}]"
     subscribes :restart, "link[#{Chef::Consul.active_binary(node)}]"
     log true
+    retries 3
+    retry_delay 3
   end
 
   service 'consul' do
